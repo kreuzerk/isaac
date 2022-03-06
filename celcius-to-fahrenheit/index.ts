@@ -6,13 +6,14 @@ async function predict() {
     const celsius = tf.tensor([-40, -10, 0, 8, 15, 22, 38]);
     const fahrenheit = tf.tensor([-40, 14, 32, 46, 59, 72, 100]);
 
-    const network = tf.layers.dense({
+    const layerOne = tf.layers.dense({
         units: 1,
         inputShape: [1]
     });
 
+
     const model = tf.sequential({
-        layers: [network]
+        layers: [layerOne]
     });
 
     model.compile({
@@ -21,7 +22,9 @@ async function predict() {
     });
 
     await model.fit(celsius, fahrenheit, {epochs: 500, verbose: 0});
-    console.log('The model is brutal güet trainiert');
+    console.log('The model is trained');
+    console.log('Weights');
+    layerOne.getWeights().forEach(w => w.print());
 
     return model.predict(tf.tensor([100]));
 }
